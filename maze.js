@@ -5,7 +5,7 @@ import { CoordsMap } from "./coords-map.js";
  *  and related helper methods
  */
 export class Maze {
-  constructor(edges, nrows, ncols, strategy) {
+  constructor(edges, nrows, ncols) {
     this.m = +nrows;
     this.n = +ncols;
     this.edges = edges;  // ES6 Map of directed paths between adjacent cells

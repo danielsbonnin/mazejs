@@ -12,7 +12,7 @@ export class MazeRunner {
     this.nrows = rows;
     this.ncols = cols;
     // let strategy = new RecursiveStrategy(this.edges);
-    let maze = new Maze(edges, rows, cols, strategy);
+    let maze = new Maze(edges, rows, cols);
     
     let gridElement = document.querySelector("#mazeGrid");
     this.mazeGrid = new MazeGrid(maze, gridElement);
