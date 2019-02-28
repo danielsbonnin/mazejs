@@ -1,0 +1,55 @@
+.mazeSquare {
+    background: black;
+}
+.mazeGridOld {
+    background: red;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    background: grey;
+    width: 50%;
+    max-width: 400px;
+    height: 400px;
+}
+.mazeContainer {
+    
+}
+.mazeContainer:After {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.mazeGrid {
+    display:grid;
+    float:left;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    box-sizing: border-box;
+    max-width: 50%;
+}
+.mazeGrid:After {
+    width: 100%;
+    padding-bottom: 100%;
+}
+.square {
+    //background: green;
+    box-sizing: border-box;
+    border: 5px solid black;
+    border-radius: 5px;
+    background-color: grey;
+    padding: 2em;
+    color: #d9480f;
+}
+.bottom {
+    border-bottom: 5px solid black;
+}
+.top {
+    border-top: 5px solid black;
+}
+.left {
+    border-left: 5px solid black;
+}
+.right {
+    border-right: 5px solid black;
+}

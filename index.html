@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="./main.js" type="module"></script>
+  </head>
+
+  <body>
+    <h1>Maze Algorithms</h1>
+    <div id="manualInput">
+        <textarea id="edgesInput" name="edges"></textarea>
+        <select id="algorithmSelect">
+          <option value="recursive">recursive</option>
+          <option value="DFS">DFS</option>
+        </select>
+        <button id="startbtn">show</button>
+    </div>
+    <div id="sampleMazes">
+        <span>Maze Size: </span>
+        <select id="sampleMazeSize">
+            <option value="1">1x1</option>
+            <option value="2">2x2</option>
+            <option selected value="3">3x3</option>
+        </select>
+        <button id="sampleMazeStart">show sample maze</button>
+        <div>
+        <span>num cols: </span><input type="number" id="colsInput" style="width: 40px;" value="3"/>
+        </div>
+    </div>
+    
+    <!--<div class="mazeContainer">
+        <div id="mazeGrid" class="mazeGrid"></div>
+    </div>-->
+    <div class="mazeGrid" id="mazeGrid">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </div>
+  </body>
+
+</html>
