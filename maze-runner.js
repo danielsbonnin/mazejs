@@ -11,7 +11,7 @@ export class MazeRunner {
     this.edges = edges;
     this.nrows = rows;
     this.ncols = cols;
-    let strategy = new RecursiveStrategy(this.edges);
+    // let strategy = new RecursiveStrategy(this.edges);
     let maze = new Maze(edges, rows, cols, strategy);
     
     let gridElement = document.querySelector("#mazeGrid");
