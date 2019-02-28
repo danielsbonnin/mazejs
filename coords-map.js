@@ -5,12 +5,19 @@ export class CoordsMap extends Map {
     return super.get(`[${arr.join(',')}]`);
   }
   has(arr) {
+    if (!arr) {
+      return false;
+    }
     if (typeof arr === "string")
       return super.has(arr);
     return super.has(`[${arr.join(',')}]`);
   }
   set(arr) {
-    super.set(`[${arr.join(',')}]`, [arr[2],arr[3],arr[0],arr[1]]);
+    if (arr.length === 4) {
+      super.set(`[${arr.join(',')}]`, [arr[2],arr[3],arr[0],arr[1]]);
+    } else if (arr.length === 2) {
+      super.set(`${arr.join(',')}]`, [arr[1],arr[0]]);
+    }
   }
   
   static fromEdgesArr(edgesArr) {

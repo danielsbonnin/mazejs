@@ -1,39 +1,17 @@
-.mazeSquare {
-    background: black;
-}
-.mazeGridOld {
-    background: red;
-    display: grid;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    background: grey;
-    width: 50%;
-    max-width: 400px;
-    height: 400px;
-}
-.mazeContainer {
-    
-}
-.mazeContainer:After {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
-}
 
 .mazeGrid {
     display:grid;
-    float:left;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    float: left;
+
     box-sizing: border-box;
     max-width: 50%;
+    padding: 5px;
 }
 .mazeGrid:After {
     width: 100%;
     padding-bottom: 100%;
 }
 .square {
-    //background: green;
     box-sizing: border-box;
     border: 5px solid black;
     border-radius: 5px;
@@ -42,14 +20,18 @@
     color: #d9480f;
 }
 .bottom {
-    border-bottom: 5px solid black;
+    border-bottom: none;
 }
 .top {
-    border-top: 5px solid black;
+    border-top: none;
 }
 .left {
-    border-left: 5px solid black;
+    border-left: none;
 }
 .right {
-    border-right: 5px solid black;
+    border-right: none;
+}
+.pageSection {
+    display: block;
+    margin: 10px;
 }
