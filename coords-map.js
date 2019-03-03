@@ -5,7 +5,7 @@ export class CoordsMap extends Map {
     return super.get(`[${arr.join(',')}]`);
   }
   has(arr) {
-    if (!arr) {
+    if (!arr || arr.length === 0) {
       return false;
     }
     if (typeof arr === "string")

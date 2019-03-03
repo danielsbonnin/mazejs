@@ -13,7 +13,7 @@ export class MazeStrategy {
   }
   getNeighbors(node) {
       let neighborsarr = [];
-      for (direction of [Dir.Left, Dir.Right, Dir.Top, Dir.Bottom]) {
+      for (let direction of [Dir.Left, Dir.Right, Dir.Top, Dir.Bottom]) {
           let neighbor = this.tryGetNeighbor(node, direction);
           if (!!neighbor)  // set parent of neighbor to curNode
               neighborsarr.push(neighbor);
@@ -22,26 +22,29 @@ export class MazeStrategy {
   }
   
   tryGetNeighbor(x, dir) {
-      switch (dir) {
-          case Dir.Left: 
-            dirNode = [x[0], x[1], x[0], x[1]-1];
-            break;
-          case Dir.Right:
-            dirNode = [x[0], x[1], x[0], x[1]+1];
-            break;
-          case Dir.Top:
-            dirNode = [x[0], x[1], x[0]-1, x[1]];
-            break;
-          case Dir.Bottom:
-            dirNode = [x[0], x[1], x[0]+1, x[1]];
-            break;
-          default:
-            console.log(`No such direction as ${dir}`);
-      }
+    let dirNode = [];
+    switch (dir) {
+        case Dir.Left: 
+          dirNode = [x[0], x[1], x[0], x[1]-1];
+          break;
+        case Dir.Right:
+          dirNode = [x[0], x[1], x[0], x[1]+1];
+          break;
+        case Dir.Top:
+          dirNode = [x[0], x[1], x[0]-1, x[1]];
+          break;
+        case Dir.Bottom:
+          dirNode = [x[0], x[1], x[0]+1, x[1]];
+          break;
+        default:
+          console.log(`No such direction as ${dir}`);
+    }
 
-    if (this.edges.has(dirNode));
-        return (this.edges.get(dirNode).slice(2));
-    return null;
+    if (this.edges.has(dirNode))
+      return this.edges.get(dirNode).slice(2);
+    else {
+      return null;
+    }
   }
 
   findSolutions() {
@@ -61,17 +64,19 @@ export class RecursiveStrategy extends MazeStrategy {
     }
     
     // base case: found exit
-    if (`${root.join(",")}` == `${end.join(",")}`) {
+    if (`${root.join(",")}` === `${end.join(",")}`) {
         return [[root]];
     }
         
     // deep copy of traversal history, for backtracking
     let newseen = new CoordsMap(seen);
+    if (!parent)
+      parent = [null];
     newseen.set(parent.concat(root));
     
     // Visit neighbors of current node
-    let allNeighbors = self.getNeighbors(root)
-    let ret = []
+    let allNeighbors = this.getNeighbors(root);
+    let ret = [];
     for (let n in allNeighbors) {
         if (`${n.join(",")}` === `${parent.join(",")}`) {
             continue;

@@ -5,7 +5,7 @@ import { CoordsMap } from "./coords-map.js";
  *  and related helper methods
  */
 export class Maze {
-  constructor(edges, nrows, ncols) {
+  constructor(edges, nrows, ncols, strategy = null) {
     this.m = +nrows;
     this.n = +ncols;
     this.edges = edges;  // ES6 Map of directed paths between adjacent cells
@@ -16,7 +16,7 @@ export class Maze {
     if (this.numEntrances != 2) {
       console.log(`This maze has ${this.numEntrances} entrances. Should have 2`);
     } else {
-      this.solution = []; // strategy.findSolutions(this.entrances[0], this.entrances[1]);
+      this.solution = strategy.findSolutions(this.entrances[0], this.entrances[1]);
       this.printMaze();
     }
   }

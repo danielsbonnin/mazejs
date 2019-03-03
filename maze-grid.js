@@ -45,8 +45,14 @@ export class GridSquare {
     this.squareElement.className = "square";
     this.left = this.right = this.top = this.bottom = false;
     gridElement.appendChild(this.squareElement);
+    this.row = row;
+    this.col = col;
+    this.squareElement.addEventListener("mouseover", this.highlight);
   }
 
+    highlight(event) {
+        console.log(`row: ${this.row}, col: ${this.col}`);
+    }
     set left(canAccess) {
         if (canAccess) {
             this.squareElement.classList.add("left");

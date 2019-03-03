@@ -1,2 +1,7 @@
 *.docx
 *.tmp
+*.bak
+*.vscode/
+package-lock.json
+*.zip
+node_modules/
