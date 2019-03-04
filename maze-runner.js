@@ -11,10 +11,22 @@ export class MazeRunner {
     this.edges = edges;
     this.nrows = rows;
     this.ncols = cols;
-    let strategy = new RecursiveStrategy(this.edges);
-    let maze = new Maze(edges, rows, cols, strategy);
-    
     let gridElement = document.querySelector("#mazeGrid");
-    this.mazeGrid = new MazeGrid(maze, gridElement);
+    this.strategy = new RecursiveStrategy(this.edges);
+    let listener = this.mazeEvent;  // function (label, data) { console.log(`${label} emitted with data: ${data}`);}
+    
+    this.maze = new Maze(edges, rows, cols, this.strategy);
+    this.mazeGrid = new MazeGrid(this.maze, gridElement);
+    this.strategy.addlistener(this);
+    this.maze.findSolutions();
+    
+  }
+
+  mazeEvent(label, data) {
+    switch (label) {
+      case "checkCell":
+        this.mazeGrid.setCheckCell(data);
+        break;
+    }
   }
 }

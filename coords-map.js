@@ -12,11 +12,11 @@ export class CoordsMap extends Map {
       return super.has(arr);
     return super.has(`[${arr.join(',')}]`);
   }
-  set(arr) {
-    if (arr.length === 4) {
-      super.set(`[${arr.join(',')}]`, [arr[2],arr[3],arr[0],arr[1]]);
-    } else if (arr.length === 2) {
-      super.set(`${arr.join(',')}]`, [arr[1],arr[0]]);
+  set(arrkey, arrval) {
+    if (typeof arrkey === "string") {
+      super.set(arrkey, arrval);
+    } else {
+      super.set(`[${arrkey.join(',')}]`, arrval);
     }
   }
   

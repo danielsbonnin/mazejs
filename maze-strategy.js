@@ -10,8 +10,33 @@ var Dir = {
 export class MazeStrategy {
   constructor(edges) {
     this.edges = edges;
+    this.listeners = [];
+  }
+  addlistener(obj, listener) {
+    this.listeners.push(obj);
+  }
+
+  emit(label, data) {
+    for (let l of this.listeners) {
+      l.mazeEvent(label, data);
+    }
+    
+  }
+
+  checkCell(row, col) {
+    await sleep(500);
+    this.emit("checkCell", {"row": row, "col": col});
+    
+  }
+
+  setVisited(row, col) {
+
+  }
+  setCurrentCell(row, col) {
+
   }
   getNeighbors(node) {
+      this.checkCell(node[0], node[1]);
       let neighborsarr = [];
       for (let direction of [Dir.Left, Dir.Right, Dir.Top, Dir.Bottom]) {
           let neighbor = this.tryGetNeighbor(node, direction);
@@ -41,7 +66,7 @@ export class MazeStrategy {
     }
 
     if (this.edges.has(dirNode))
-      return this.edges.get(dirNode).slice(2);
+      return this.edges.get(dirNode).slice(0,2);
     else {
       return null;
     }
@@ -72,20 +97,18 @@ export class RecursiveStrategy extends MazeStrategy {
     let newseen = new CoordsMap(seen);
     if (!parent)
       parent = [null];
-    newseen.set(parent.concat(root));
+    newseen.set(parent, root);
     
     // Visit neighbors of current node
     let allNeighbors = this.getNeighbors(root);
     let ret = [];
-    for (let n in allNeighbors) {
+    for (let n of allNeighbors) {
         if (`${n.join(",")}` === `${parent.join(",")}`) {
             continue;
         }
-        recursiveArr = [];
         for (let x of this.solutionRec(n, root, end, newseen)) {
-          recursiveArr.push([root].concat(x));
+            ret.push([root].concat(x));
         }
-        ret.push(recursiveArr);
     }
     return ret;
   }
@@ -98,4 +121,8 @@ export class RecursiveStrategy extends MazeStrategy {
       seen = new CoordsMap();
       return self.solutionRec(ends[0], None, ends[1], seen)
   }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

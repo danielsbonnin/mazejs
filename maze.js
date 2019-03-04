@@ -11,16 +11,19 @@ export class Maze {
     this.edges = edges;  // ES6 Map of directed paths between adjacent cells
     this.entrances = this.calculateEntrances();  // array of entrances
     this.numEntrances = this.entrances.length;
-
+    this.strategy = strategy;
+  }
+  
+  findSolutions() {
     // validate entrances
     if (this.numEntrances != 2) {
       console.log(`This maze has ${this.numEntrances} entrances. Should have 2`);
     } else {
-      this.solution = strategy.findSolutions(this.entrances[0], this.entrances[1]);
+      this.solution = this.strategy.findSolutions(this.entrances[0], this.entrances[1])[0];
       this.printMaze();
     }
   }
-  
+
   /**
    * get all grid squares connected outside the grid (ie: maze entrances)
    */
@@ -76,9 +79,16 @@ export class Maze {
     // add solution steps, if solution exists
     for (let idx = 0; idx < this.solution.length; idx++) {
         let coords = this.solution[idx];
+        let twodigits = ` ${idx+1}`;
+        let threedigits = ` ${idx+1} `;
+        if (idx > 8) {
+          twodigits = twodigits.slice(1);
+          threedigits = threedigits.slice(1);
+        }
+        if (idx < 9){}
         mazeArr[coords[0]*2+1][coords[1]] = mazeArr[coords[0]*2+1][coords[1]]
-            .replace("   ", `${idx+1}`) 
-            .replace("|  ", `|${idx+1}`);
+            .replace("   ", `${threedigits}`) 
+            .replace("|  ", `|${twodigits}`);
     }
     console.log(mazeArr.map((row) => row.join("")).join("\n"));
   }

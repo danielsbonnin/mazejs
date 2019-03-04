@@ -31,6 +31,9 @@
 .right {
     border-right: none;
 }
+.checking {
+    background-color: yellow;
+}
 .pageSection {
     display: block;
     margin: 10px;

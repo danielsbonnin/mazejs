@@ -8,6 +8,7 @@ export class MazeGrid {
         this.edges = maze.edges;
         this.grid = [];
         this.gridElement = gridElement;
+        this.checkCell = null;
         this.refreshGrid(this.rows, this.cols);
     }
     
@@ -36,6 +37,17 @@ export class MazeGrid {
             square.left = true;
         if (this.edges.has([rowIdx, colIdx, rowIdx, colIdx+1]))
             square.right = true;
+    }
+
+    setCheckCell(coords) {
+        if (coords.row < 0 || coords.col < 0) {
+            return;
+        }
+        if (!!this.checkCell) {
+            this.checkCell.Checking = false;
+        } 
+        this.checkCell = this.grid[coords.row][coords.col];
+        this.checkCell.Checking = true;
     }
 }
 
@@ -79,6 +91,13 @@ export class GridSquare {
             this.squareElement.classList.add("bottom");
         } else {
             this.squareElement.classList.remove("bottom");
+        }
+    }
+    set Checking(val) {
+        if (val) {
+            this.squareElement.classList.add("checking");
+        } else {
+            this.squareElement.classList.remove("checking");
         }
     }
 }
