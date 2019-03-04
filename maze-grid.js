@@ -59,7 +59,7 @@ export class GridSquare {
     gridElement.appendChild(this.squareElement);
     this.row = row;
     this.col = col;
-    this.squareElement.addEventListener("mouseover", this.highlight);
+    this.squareElement.addEventListener("mouseover", this.highlight.bind(this));
   }
 
     highlight(event) {

@@ -1,5 +1,5 @@
 import { CoordsMap } from "./coords-map.js";
-
+var wait = ms => new Promise((r, j)=>setTimeout(r, ms));
 var Dir = {
   Left: 0,
   Right: 1,
@@ -23,10 +23,9 @@ export class MazeStrategy {
     
   }
 
-  checkCell(row, col) {
-    await sleep(500);
+  async checkCell(row, col) {
+    await wait(3000);
     this.emit("checkCell", {"row": row, "col": col});
-    
   }
 
   setVisited(row, col) {
