@@ -11,20 +11,31 @@ export class MazeRunner {
     this.edges = edges;
     this.nrows = rows;
     this.ncols = cols;
+    this.events = [];
     let gridElement = document.querySelector("#mazeGrid");
     let strategy = new RecursiveStrategy(this.edges);
+    strategy.addlistener(this);
     this.maze = new Maze(edges, rows, cols, strategy);
     this.mazeGrid = new MazeGrid(this.maze, gridElement);
-    strategy.addlistener(this);
     let solution = this.maze.findSolutions();
-    this.mazeGrid.playSolution(this.mazeGrid, solution);
+    for (let cell of solution) {
+      this.events.push(new MazeEvent("solution", cell));
+    }
+    for (let cell of solution) {
+      this.events.push(new MazeEvent("deleteSolution", cell));
+    }
+    this.mazeGrid.playEvents(this.mazeGrid, this.events);
+    // this.mazeGrid.playSolution(this.mazeGrid, solution);
   }
 
   mazeEvent(label, data) {
-    switch (label) {
-      case "checkCell":
-        this.mazeGrid.setCheckCell(data);
-        break;
-    }
+    this.events.push(new MazeEvent(label, data));
+  }
+}
+
+export class MazeEvent {
+  constructor(label, data) {
+    this.label = label;
+    this.data = data;
   }
 }

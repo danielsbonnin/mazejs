@@ -9,7 +9,7 @@ document.querySelector("#sampleMazeStart")
   .addEventListener("click", initSampleMaze);
 
 // show sample maze on load
-window.onload = initSampleMaze;
+// window.onload = initSampleMaze;
 
 // Coordinates UI/BL interactions
 var mazeRunner;

@@ -23,19 +23,22 @@ export class MazeStrategy {
     
   }
 
-  async checkCell(row, col) {
-    await wait(3000);
-    this.emit("checkCell", {"row": row, "col": col});
+  checkCell(row, col) {
+    this.emit("checkCell", [row, col]);
   }
 
-  setVisited(row, col) {
-
+  setVisited(coords) {
+    this.emit("setVisited", [coords[0], coords[1]]);
   }
+  clearVisited() {
+    this.emit("clearVisited", {});
+  }
+
   setCurrentCell(row, col) {
 
   }
   getNeighbors(node) {
-      // this.checkCell(node[0], node[1]);
+      this.checkCell(node[0], node[1]);
       let neighborsarr = [];
       for (let direction of [Dir.Left, Dir.Right, Dir.Top, Dir.Bottom]) {
           let neighbor = this.tryGetNeighbor(node, direction);
@@ -84,9 +87,10 @@ export class RecursiveStrategy extends MazeStrategy {
   solutionRec(root, parent, end, seen) {
     this.edgeAlreadyTraversed = (seen.has(root) || seen.has(parent));
     if (!root || this.edgeAlreadyTraversed) {
+      this.clearVisited();
         return [];
     }
-    
+    this.setVisited(root);
     // base case: found exit
     if (`${root.join(",")}` === `${end.join(",")}`) {
         return [[root]];
@@ -97,6 +101,7 @@ export class RecursiveStrategy extends MazeStrategy {
     if (!parent)
       parent = [null];
     newseen.set(parent, root);
+    this.setVisited(root)
     
     // Visit neighbors of current node
     let allNeighbors = this.getNeighbors(root);

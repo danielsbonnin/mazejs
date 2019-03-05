@@ -34,6 +34,9 @@
 .checking {
     background-color: yellow;
 }
+.visited {
+    background-color: purple;
+}
 .inSolution {
     background-color: green;
 }

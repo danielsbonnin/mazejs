@@ -1,3 +1,5 @@
+
+
 /**
  * Representation of Maze cells with html/css
  */
@@ -10,6 +12,7 @@ export class MazeGrid {
         this.gridElement = gridElement;
         this.checkCell = null;
         this.refreshGrid(this.rows, this.cols);
+        this.gridElement.addEventListener("drop", this.gridDrop.bind(this));
     }
     
     refreshGrid(rows, cols) {
@@ -32,7 +35,7 @@ export class MazeGrid {
         cell.inSolution = true;
         this.playSolution(this, solution, idx+1);
     }
-    
+
     playSolution(obj, solution, idx=0){
         if (idx < solution.length) {
             let coords = solution[idx];
@@ -41,6 +44,67 @@ export class MazeGrid {
         }
     }
 
+    gridDrop(ev) {
+        // ev.preventDefault();
+        console.log("grid drop");
+        let draggedEdge = [ev.dataTransfer.getData("coordsStart"), ev.dataTransfer.getData("coordsEnd")];
+        this.createEdge(ev.dataTransfer); 
+    }
+    
+    getCellFromData(data) {
+        let square;
+        try {
+            square = this.grid[data[0]][data[1]];
+        } catch {
+            console.log("oops");
+            square = this.grid[0][0];
+        } finally {
+            return square;
+        }
+
+    }
+    updateCellEvent(events, idx) {
+        let curEvent = events[idx];
+        let cell;
+        switch (curEvent.label) {
+            case "checkCell":
+                this.setCheckCell(curEvent.data);
+                break;
+            case "solution":
+                cell = this.getCellFromData(curEvent.data);
+                cell.inSolution = true;
+                break;
+            case "deleteSolution":
+                cell = this.getCellFromData(curEvent.data);
+                cell.inSolution = false;
+                break;
+            case "setVisited":
+                cell = this.getCellFromData(curEvent.data);
+                if (!!cell)
+                    cell.visited = true;
+                break;
+            case "clearVisited":
+                this.clearVisited();
+                break;
+            default:
+                break;
+        }
+        this.playEvents(this, events, idx+1);
+    }
+
+    playEvents(obj, events, idx=0) {
+        if (idx < events.length) {
+            setTimeout(function() {obj.updateCellEvent(events, idx)}, 200);
+        }
+    }
+
+    clearVisited() {
+        for (let row of this.grid) {
+            for (let square of row) {
+                square.visited = false;
+            }
+        }
+    }
     setCellAvailableDirs(rowIdx, colIdx, square) {
         if (this.edges.has([rowIdx, colIdx, rowIdx-1, colIdx]))
             square.top = true;
@@ -53,14 +117,17 @@ export class MazeGrid {
     }
 
     setCheckCell(coords) {
-        if (coords.row < 0 || coords.col < 0) {
+        if (!coords || coords[0] < 0 || coords[1] < 0) {
             return;
         }
         if (!!this.checkCell) {
             this.checkCell.Checking = false;
         } 
-        this.checkCell = this.grid[coords.row][coords.col];
-        this.checkCell.Checking = true;
+        let cell = this.getCellFromData(coords);
+        if (!!cell) {
+            this.checkCell = cell;
+            this.checkCell.Checking = true;
+        }
     }
 }
 
@@ -73,11 +140,27 @@ export class GridSquare {
     this.row = row;
     this.col = col;
     this.squareElement.addEventListener("mouseover", this.highlight.bind(this));
+    this.squareElement.addEventListener("dragstart", this.cellDrag.bind(this));
+    this.squareElement.addEventListener("dragend", this.cellDrop.bind(this));
   }
 
-    highlight(event) {
-        console.log(`row: ${this.row}, col: ${this.col}`);
+  createEdge(coords) {
+      
+  }
+  highlight(event) {
+        // console.log(`row: ${this.row}, col: ${this.col}`);
     }
+    
+    cellDrag(ev) {
+        console.log("cell drag");
+        ev.dataTransfer.setData("coordsStart", [ev.target.row, ev.target.col]);
+    }
+
+    cellDrop(ev) {
+        console.log("cell drop");
+        ev.dataTransfer.setData("coordsEnd", [this.row, this.col]); 
+    }
+
     set left(canAccess) {
         if (canAccess) {
             this.squareElement.classList.add("left");
@@ -118,6 +201,13 @@ export class GridSquare {
             this.squareElement.classList.add("inSolution");
         } else {
             this.squareElement.classList.remove("inSolution");
+        }
+    }
+    set visited(val) {
+        if (val) {
+            this.squareElement.classList.add("visited");
+        } else {
+            this.squareElement.classList.remove("visited");
         }
     }
 }
