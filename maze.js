@@ -12,6 +12,7 @@ export class Maze {
     this.entrances = this.calculateEntrances();  // array of entrances
     this.numEntrances = this.entrances.length;
     this.strategy = strategy;
+    this.solution = [];
   }
   
   findSolutions() {
@@ -20,8 +21,9 @@ export class Maze {
       console.log(`This maze has ${this.numEntrances} entrances. Should have 2`);
     } else {
       this.solution = this.strategy.findSolutions(this.entrances[0], this.entrances[1])[0];
-      this.printMaze();
+      this.printMaze(this.solution);
     }
+    return this.solution;
   }
 
   /**
@@ -52,7 +54,7 @@ export class Maze {
   /**
    * A text representation of the maze printed to console
    */
-  printMaze() {
+  printMaze(solution = []) {
     let mazeArr = [];
     // every other row is a up/down or l/r, using even odd to toggle
     for (let i = 0; i < this.m*2+1; i++) {
@@ -77,8 +79,8 @@ export class Maze {
     }
 
     // add solution steps, if solution exists
-    for (let idx = 0; idx < this.solution.length; idx++) {
-        let coords = this.solution[idx];
+    for (let idx = 0; idx < solution.length; idx++) {
+        let coords = solution[idx];
         let twodigits = ` ${idx+1}`;
         let threedigits = ` ${idx+1} `;
         if (idx > 8) {

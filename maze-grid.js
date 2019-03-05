@@ -28,6 +28,19 @@ export class MazeGrid {
         }
     }
 
+    updateCellIsSolution(cell, solution, idx) {
+        cell.inSolution = true;
+        this.playSolution(this, solution, idx+1);
+    }
+    
+    playSolution(obj, solution, idx=0){
+        if (idx < solution.length) {
+            let coords = solution[idx];
+            let square = obj.grid[coords[0]][coords[1]];
+            setTimeout(function() {obj.updateCellIsSolution(square, solution, idx)}, 200);
+        }
+    }
+
     setCellAvailableDirs(rowIdx, colIdx, square) {
         if (this.edges.has([rowIdx, colIdx, rowIdx-1, colIdx]))
             square.top = true;
@@ -98,6 +111,13 @@ export class GridSquare {
             this.squareElement.classList.add("checking");
         } else {
             this.squareElement.classList.remove("checking");
+        }
+    }
+    set inSolution(val) {
+        if (val) {
+            this.squareElement.classList.add("inSolution");
+        } else {
+            this.squareElement.classList.remove("inSolution");
         }
     }
 }

@@ -35,7 +35,7 @@ export class MazeStrategy {
 
   }
   getNeighbors(node) {
-      this.checkCell(node[0], node[1]);
+      // this.checkCell(node[0], node[1]);
       let neighborsarr = [];
       for (let direction of [Dir.Left, Dir.Right, Dir.Top, Dir.Bottom]) {
           let neighbor = this.tryGetNeighbor(node, direction);

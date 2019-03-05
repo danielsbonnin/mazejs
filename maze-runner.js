@@ -16,7 +16,8 @@ export class MazeRunner {
     this.maze = new Maze(edges, rows, cols, strategy);
     this.mazeGrid = new MazeGrid(this.maze, gridElement);
     strategy.addlistener(this);
-    this.maze.findSolutions();
+    let solution = this.maze.findSolutions();
+    this.mazeGrid.playSolution(this.mazeGrid, solution);
   }
 
   mazeEvent(label, data) {
